@@ -1,7 +1,9 @@
 <?php
 
 require_once '../Database/DatabaseComponent.php';
+//local instance for database
 $database = DatabaseComponent::getInstance();
+//takes array of arrays of rows from database
 $messages = $database->selectAll(array("id", "name", "short_text", "creating_date", "editing_date"));
 
 ?>
