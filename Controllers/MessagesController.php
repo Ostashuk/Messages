@@ -1,5 +1,5 @@
 <?php
-
+     
 if (!empty($_POST)){
     
     if(isset($_POST["sendMessage"])){
@@ -27,25 +27,47 @@ if (!empty($_POST)){
         
         echo $messageModel->editMessage();
         
-    }elseif($_POST["deleteMessage"]){
+    }elseif (isset($_POST["editMessage"])) {
         
-        require_once '../Models/MessagesModel.php';
-        
-        $messageModel = new MessagesModel();
-        
-        $messageModel->setId($_POST["messageId"]);
-        
-        echo $messageModel->deleteMessage();
+        require_once '../Database/DatabaseComponent.php';
+        //local instance for database
+        $database = DatabaseComponent::getInstance();
+        //initialize message id
+        $messageId = $_POST["messageId"];
+        //array of arrays of rows from database
+        $message = $database->select($messageId, array("name", "full_text"));
+
+        require_once '../Views/EditMessagePage.php';
         
     }
 
 }elseif(!empty ($_GET)){
     if(isset($_GET["createMessage"])){
-        header("Location: http://localhost/Messages/Views/CreateMessagePage.php");
-    }elseif(isset($_GET["showMessages"])){
-        header("Location: http://localhost/Messages/Views/MessagesView.php");
-    }elseif (isset($_GET["editMessage"])) {
-        header("Location: http://localhost/Messages/Views/EditMessagePage.php");
+        
+        require_once '../Views/CreateMessagePage.php';
+        
+    }elseif(isset($_GET["showMessages"])){ 
+        
+        require_once '../Database/DatabaseComponent.php';
+        //local instance for database
+        $database = DatabaseComponent::getInstance();
+        //takes array of arrays of rows from database
+        $messages = $database->selectAll(array("id", "name", "short_text", "creating_date", "editing_date"));
+        
+        require_once '../Views/MessagesView.php';
+        
+    }elseif($_GET["deleteMessage"]){
+        
+        require_once '../Database/DatabaseComponent.php';
+        //local instance for database
+        $database = DatabaseComponent::getInstance();
+        //delete message with appropriate id
+        $database->delete($_GET["messageId"]);
+        //takes array of arrays of rows from database
+        $messages = $database->selectAll(array("id", "name", "short_text", "creating_date", "editing_date"));
+        
+        require_once '../Views/MessagesView.php';
+        
     }
 }
 

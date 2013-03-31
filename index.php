@@ -7,7 +7,7 @@
 
     <body>
         <form action="http://localhost/Messages/Controllers/MessagesController.php" method="GET">
-            <input name="createMessage" type="submit" value="Create message">
+            <input name="createMessage" type="submit" value="Send message">
             <input name="showMessages" type="submit" value="Show messages">
         </form>
      </body>

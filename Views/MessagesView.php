@@ -1,13 +1,3 @@
-<?php
-
-require_once '../Database/DatabaseComponent.php';
-//local instance for database
-$database = DatabaseComponent::getInstance();
-//takes array of arrays of rows from database
-$messages = $database->selectAll(array("id", "name", "short_text", "creating_date", "editing_date"));
-
-?>
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -16,7 +6,7 @@ $messages = $database->selectAll(array("id", "name", "short_text", "creating_dat
     </head>
     <body>
         <form action="http://localhost/Messages/Controllers/MessagesController.php" method="GET">
-            <input name="createMessage" type="submit" value="Create message">
+            <input name="createMessage" type="submit" value="Send message">
         </form><br>
         <table border="1">
             <?php foreach ($messages as $row){?>
@@ -28,11 +18,11 @@ $messages = $database->selectAll(array("id", "name", "short_text", "creating_dat
                     <b>Last editing date: </b><?php echo $row["editing_date"] ?></p>
                 </td>
                 <td>
-                    <form action="http://localhost/Messages/Views/EditMessagePage.php" method="POST">
+                    <form action="http://localhost/Messages/Controllers/MessagesController.php" method="POST">
                         <input type="submit" name="editMessage" value="Edit"><br>
                         <input type="hidden" name="messageId" value="<?php echo $row["id"] ?>"> 
                     </form>
-                    <form action="http://localhost/Messages/Controllers/MessagesController.php" method="POST">
+                    <form action="http://localhost/Messages/Controllers/MessagesController.php" method="GET">
                         <input type="submit" name="deleteMessage" value="Delete">
                         <input type="hidden" name="messageId" value="<?php echo $row["id"] ?>"> 
                     </form>
