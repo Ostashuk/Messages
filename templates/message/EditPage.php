@@ -1,12 +1,3 @@
-<?php
-
-require_once '../Database/DatabaseComponent.php';
-$database = DatabaseComponent::getInstance();
-
-$messageId = $_POST["messageId"];
-$message = $database->select($messageId, array("name", "full_text"));
-
-?>
 <!DOCTYPE HTML>
 <html>
     <head>

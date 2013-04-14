@@ -1,14 +1,14 @@
-<!DOCTYPE HTML>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>Message manipulation</title>
-    </head>
+<?php
 
-    <body>
-        <form action="http://localhost/Messages/Controllers/MessagesController.php" method="GET">
-            <input name="createMessage" type="submit" value="Create message">
-            <input name="showMessages" type="submit" value="Show messages">
-        </form>
-     </body>
-</html>
+//Перевіряємо PHP версію
+if (version_compare(phpversion(), '5.1.0', '<') == true){ 
+    die ('Несумісна PHP версія. Використовуйте PHP 5.1.0 або вище.'); 
+}
+
+require_once "Config.php";
+
+try{
+    Router::route();
+}catch(Exception $ex){
+    die($ex->getMessage());
+}
